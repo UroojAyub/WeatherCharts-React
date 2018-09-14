@@ -2,13 +2,12 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Chart from '../../components/chart/chart';
 import Map from '../../components/map/map';
+import Alert from '../../components/alert/alert';
 import './weather-table.css';
 
 class WeatherTable extends Component {
 
-    renderCityData = (data) => {
-
-        const name = data.city.name;
+    renderCityData = (data, index) => {
         const temps = data
             .list
             .map(weather => ({
@@ -30,7 +29,7 @@ class WeatherTable extends Component {
             }));
 
         return (
-            <tr key={data.city.id}>
+            <tr key={index}>
                 <td><Map lat={data.city.coord.lat} lng={data.city.coord.lon} isMarkerShown/></td>
                 <td>
                     <Chart
@@ -64,32 +63,45 @@ class WeatherTable extends Component {
         )
     }
 
-    render() {
-        const weatherRows = this
-            .props
-            .weathers
-            .map(data => this.renderCityData(data))
+    render() {;
+
+        let content = null;
+
         if (!this.props.weathers.length) {
-            return <h5 className='text-center my-5'>Search a city name to get started</h5>;
+            content = <h5 className='text-center my-5'>Search a city name to get started</h5>;
+        } else {
+            content = (
+                <table className="table table-hover my-4" id="weather">
+                    <thead>
+                        <tr>
+                            <th>City</th>
+                            <th>Temperature</th>
+                            <th>Humidity</th>
+                            <th>Pressure</th>
+                        </tr>
+                    </thead>
+                    <tbody>{this
+                            .props
+                            .weathers
+                            .map((data, index) => this.renderCityData(data, index))}</tbody>
+
+                </table>
+            );
         }
+
         return (
-            <table className="table table-hover my-4" id="weather">
-                <thead>
-                    <tr>
-                        <th>City</th>
-                        <th>Temperature</th>
-                        <th>Humidity</th>
-                        <th>Pressure</th>
-                    </tr>
-                </thead>
-                <tbody>{weatherRows}</tbody>
-
-            </table>
-
+            <div>
+                <Alert
+                    show={this.props.searchError
+                    ? true
+                    : false}
+                    type="alert-danger"
+                    message={this.props.searchError}/> {content}
+            </div>
         )
     }
 }
 function mapStateToProps(state) {
-    return {weathers: state.weathers.weatherData};
+    return {weathers: state.weathers.weatherData, searchError: state.weathers.error};
 }
 export default connect(mapStateToProps)(WeatherTable)

@@ -31,7 +31,10 @@ class SearchBar extends Component {
                             onChange={(e) => this.setState({search: e.target.value})}
                             className="form-control w-100"/>
                     </div>
-                    <button type="submit" className="btn btn-success col-sm-2">Submit</button>
+                    <button
+                        type="submit"
+                        className="btn btn-success col-sm-2"
+                        disabled={!this.state.search}>Submit</button>
                     <button
                         className="btn btn-danger col-sm-1"
                         disabled={!this.props.weathers.length}

@@ -9,7 +9,7 @@ export const fetchWeather = (cityName) => (dispatch) => {
     axios
         .get(url)
         .then(weather => {
-            console.log(weather.data);
+            console.log(weather);
             dispatch({type: actions.FETCH_WEATHER, payload: weather.data})
         })
         .catch(error => {
