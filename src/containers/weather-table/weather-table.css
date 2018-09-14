@@ -1,0 +1,15 @@
+#weather td,
+#weather th {
+    vertical-align: middle !important;
+    text-align: center !important;
+}
+
+#weather svg {
+    height: 150px;
+}
+
+#weather td:first-of-type,
+#weather td:first-of-type>div {
+    height:200px;
+    width: 250px;
+}

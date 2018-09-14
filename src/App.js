@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import SearchBar from './containers/search-bar/search-bar';
+import WeatherTable from './containers/weather-table/weather-table';
 
 class App extends Component {
   render() {
@@ -8,7 +9,8 @@ class App extends Component {
       <div className="my-4">
         <h2 className="text-center">Weather Charts ReactJS</h2>
         <div className="container">
-          <SearchBar/>
+          <SearchBar />
+          <WeatherTable/>
         </div>
       </div>
     );

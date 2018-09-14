@@ -1,1 +1,1 @@
-export {fetchWeather} from './weather';
+export {fetchWeather, clearWeatherSearches} from './weather';

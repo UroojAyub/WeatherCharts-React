@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {fetchWeather} from '../../actions';
+import {fetchWeather, clearWeatherSearches} from '../../actions';
 import {bindActionCreators} from 'redux';
 
 class SearchBar extends Component {
@@ -23,24 +23,31 @@ class SearchBar extends Component {
         return (
             <div>
                 <form onSubmit={this.onFormSubmit} className="form-inline">
-                    <div className="form-group col-sm-10">
+                    <div className="form-group col-sm-9">
                         <input
                             type="search"
-                            value={this.state.term}
+                            value={this.state.search}
                             placeholder="Enter a city name"
                             onChange={(e) => this.setState({search: e.target.value})}
                             className="form-control w-100"/>
                     </div>
                     <button type="submit" className="btn btn-success col-sm-2">Submit</button>
+                    <button
+                        className="btn btn-danger col-sm-1"
+                        disabled={!this.props.weathers.length}
+                        onClick={this.props.clearSearches}>Clear</button>
                 </form>
             </div>
         )
     }
 }
-
+function mapStateToProps(state) {
+    return {weathers: state.weathers.weatherData}
+}
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        searchCityWeather: fetchWeather
+        searchCityWeather: fetchWeather,
+        clearSearches: clearWeatherSearches
     }, dispatch);
 }
-export default connect(null, mapDispatchToProps)(SearchBar)
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)
