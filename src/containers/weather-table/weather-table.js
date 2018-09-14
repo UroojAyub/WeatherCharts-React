@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Chart from '../../components/chart/chart';
+import Map from '../../components/map/map';
 import './weather-table.css';
 
 class WeatherTable extends Component {
@@ -27,9 +28,10 @@ class WeatherTable extends Component {
                 x: new Date(weather.dt * 1000),
                 y: weather.main.pressure
             }));
+
         return (
             <tr key={data.city.id}>
-                <td>{name}</td>
+                <td><Map lat={data.city.coord.lat} lng={data.city.coord.lon} isMarkerShown/></td>
                 <td>
                     <Chart
                         height={200}
@@ -49,7 +51,7 @@ class WeatherTable extends Component {
                         unitY="%"></Chart>
                 </td>
                 <td>
-                <Chart
+                    <Chart
                         height={200}
                         width={250}
                         fillColor="#77d08f"
@@ -67,7 +69,7 @@ class WeatherTable extends Component {
             .props
             .weathers
             .map(data => this.renderCityData(data))
-        if(!this.props.weathers.length){
+        if (!this.props.weathers.length) {
             return <h5 className='text-center my-5'>Search a city name to get started</h5>;
         }
         return (
